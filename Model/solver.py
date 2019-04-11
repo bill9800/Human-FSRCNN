@@ -6,7 +6,6 @@ import torch.backends.cudnn as cudnn
 import sys
 sys.path.append('./')
 from model import Net
-from progress_bar import progress_bar
 import os
 
 
@@ -73,11 +72,12 @@ class FSRCNNTrainer(object):
                 mse = self.criterion(prediction, target)
                 psnr = 10 * log10(1 / mse.item())
                 avg_psnr += psnr
-                progress_bar(batch_num, len(self.testing_loader), 'PSNR: %.4f' % (avg_psnr / (batch_num + 1)))
+        print('test PSNR:', avg_psnr / len(self.testing_loader))
+                # progress_bar(batch_num, len(self.testing_loader), 'PSNR: %.4f' % (avg_psnr / (batch_num + 1)))
 
         save_path = './saved_models'
-        if avg_psnr / (batch_num + 1) > self.testpsnr:
-            self.testpsnr = avg_psnr / (batch_num + 1)
+        if avg_psnr / len(self.testing_loader) > self.testpsnr:
+            self.testpsnr = avg_psnr / len(self.testing_loader)
             folder = os.path.exists(save_path)
             if not folder:
                 os.makedirs(save_path)
