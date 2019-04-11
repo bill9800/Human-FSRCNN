@@ -3,8 +3,11 @@ from math import log10
 
 import torch
 import torch.backends.cudnn as cudnn
+import sys
+sys.path.append('./')
 from model import Net
 from progress_bar import progress_bar
+import os
 
 
 class FSRCNNTrainer(object):
@@ -22,6 +25,7 @@ class FSRCNNTrainer(object):
         self.upscale_factor = config.upscale_factor
         self.training_loader = training_loader
         self.testing_loader = testing_loader
+        self.testpsnr = 0
 
     def build_model(self):
         self.model = Net(num_channels=1, upscale_factor=self.upscale_factor).to(self.device)
@@ -50,9 +54,11 @@ class FSRCNNTrainer(object):
             self.optimizer.zero_grad()
             loss = self.criterion(self.model(data), target)
             train_loss += loss.item()
+            # print(train_loss / (batch_num + 1))
             loss.backward()
             self.optimizer.step()
-            progress_bar(batch_num, len(self.training_loader), 'Loss: %.4f' % (train_loss / (batch_num + 1)))
+            print('batch_num:', batch_num, '/', len(self.training_loader), 'Loss:', train_loss / (batch_num + 1))
+            # progress_bar(batch_num, len(self.training_loader), 'Loss: %.4f' % (train_loss / (batch_num + 1)))
 
         print("    Average Loss: {:.4f}".format(train_loss / len(self.training_loader)))
 
@@ -69,6 +75,15 @@ class FSRCNNTrainer(object):
                 avg_psnr += psnr
                 progress_bar(batch_num, len(self.testing_loader), 'PSNR: %.4f' % (avg_psnr / (batch_num + 1)))
 
+        save_path = './saved_models'
+        if avg_psnr / (batch_num + 1) > self.testpsnr:
+            self.testpsnr = avg_psnr / (batch_num + 1)
+            folder = os.path.exists(save_path)
+            if not folder:
+                os.makedirs(save_path)
+                print('create folder to save models')
+            torch.save(self.model, save_path + '/model_' + str(self.testpsnr))
+            print('model saved ......')
         print("    Average PSNR: {:.4f} dB".format(avg_psnr / len(self.testing_loader)))
 
     def run(self):
@@ -78,5 +93,3 @@ class FSRCNNTrainer(object):
             self.train()
             self.test()
             self.scheduler.step(epoch)
-            if epoch == self.nEpochs:
-                self.save_model()
