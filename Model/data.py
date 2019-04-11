@@ -54,7 +54,7 @@ def target_transform(crop_size):
 
 def get_training_set(upscale_factor):
     # root_dir = download_bsd300()
-    root_dir = '../../'
+    root_dir = '../dataset/'
     train_dir = join(root_dir, "HR_img_train")
     crop_size = calculate_valid_crop_size(256, upscale_factor)
 
@@ -68,7 +68,7 @@ def get_training_set(upscale_factor):
 
 def get_test_set(upscale_factor):
     # root_dir = download_bsd300()
-    root_dir = '../../'
+    root_dir = '../dataset/'
     test_dir = join(root_dir, "HR_img_test")
     crop_size = calculate_valid_crop_size(256, upscale_factor)
 
