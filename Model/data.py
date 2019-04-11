@@ -5,7 +5,9 @@ from os.path import exists, join, basename
 from six.moves import urllib
 from torchvision.transforms import Compose, CenterCrop, ToTensor, Resize
 
-from .dataset import DatasetFromFolder
+import sys
+sys.path.append('./')
+from dataset import DatasetFromFolder
 
 
 def download_bsd300(dest="./dataset"):
@@ -51,20 +53,28 @@ def target_transform(crop_size):
 
 
 def get_training_set(upscale_factor):
-    root_dir = download_bsd300()
-    train_dir = join(root_dir, "train")
+    # root_dir = download_bsd300()
+    root_dir = '../../'
+    train_dir = join(root_dir, "HR_img_train")
     crop_size = calculate_valid_crop_size(256, upscale_factor)
 
     return DatasetFromFolder(train_dir,
-                             input_transform=input_transform(crop_size, upscale_factor),
-                             target_transform=target_transform(crop_size))
+                             input_transform=None,
+                             target_transform=None
+                             # input_transform=input_transform(crop_size, upscale_factor),
+                             # target_transform=target_transform(crop_size))
+                             )
 
 
 def get_test_set(upscale_factor):
-    root_dir = download_bsd300()
-    test_dir = join(root_dir, "test")
+    # root_dir = download_bsd300()
+    root_dir = '../../'
+    test_dir = join(root_dir, "HR_img_test")
     crop_size = calculate_valid_crop_size(256, upscale_factor)
 
     return DatasetFromFolder(test_dir,
-                             input_transform=input_transform(crop_size, upscale_factor),
-                             target_transform=target_transform(crop_size))
+                             input_transform=None,
+                             target_transform=None
+                             # input_transform=input_transform(crop_size, upscale_factor),
+                             # target_transform=target_transform(crop_size))
+                             )
