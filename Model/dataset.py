@@ -3,6 +3,7 @@ from os.path import join
 
 import torch.utils.data as data
 from PIL import Image
+from torchvision.transforms import Compose, CenterCrop, ToTensor, Resize
 
 
 def is_image_file(filename):
@@ -26,11 +27,24 @@ class DatasetFromFolder(data.Dataset):
     def __getitem__(self, index):
         input_image = load_img(self.image_filenames[index])
         target = input_image.copy()
+        # print(target.size)
         if self.input_transform:
             input_image = self.input_transform(input_image)
+        else:
+            transi = Compose([
+                            Resize((input_image.size[1] // 4, input_image.size[0] // 4), Image.BICUBIC),
+                            ToTensor()
+                            ])
+            input_image = transi(input_image)
         if self.target_transform:
             target = self.target_transform(target)
+        else:
+            transt = Compose([
+                ToTensor()
+            ])
+            target = transt(target)
 
+        # print(input_image.size(), target.size())
         return input_image, target
 
     def __len__(self):
