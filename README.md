@@ -10,3 +10,7 @@ How to use the codes:
 1. Create a folder 'dataset' in the main folder: Human-FSRCNN/dataset.
 2. Create two sub-folder: 'Human-FSRCNN/dataset/HR_img_train', 'Human-FSRCNN/dataset/HR_img_test', and put test and train imgs in them(The original pics only, and the height and width must be the factor of 4).
 3. run 'bash run.sh' in the Model folder.
+
+## First version result:
+generate 4* original image, create image every 100ms, PSNR=32dB, image not clear enough
+![left:generate image || right:original image](https://github.com/bill9800/Human-FSRCNN/tree/master/img/0_compare.jpg)
