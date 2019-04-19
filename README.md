@@ -14,3 +14,6 @@ How to use the codes:
 ## First version result:
 generate 4* original image, create image every 100ms, PSNR=32dB, image not clear enough
 ![comparition](img/0_compare.jpg)
+<b>
+ <b>
+![comparition](img/3_compare.jpg)
