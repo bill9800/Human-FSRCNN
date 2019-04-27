@@ -1,13 +1,12 @@
 import os
 import cv2
 from mtcnn.mtcnn import MTCNN
+import numpy as np
 
 # parameter
 ORIGINAL_PATH = "HR_img"
 STORE_PATH = "LR_img"
 DOWN_SCALE_FACTOR = 0.25
-
-
 
 def is_human_img(img,detector):
     # detect whether there is a face in this image
@@ -59,35 +58,51 @@ def create_database(original_dir,store_dir,down_factor):
 def crop_with_scale(original_dir,store_dir,size_factor):
     # ensure the data is factors of size_factor
     init_dir(store_dir)
-    size = len(os.listdir(original_dir))
-    for i in range(size):
-        path = original_dir + '/' + str(i) + '.jpg'
+    #size = len(os.listdir(original_dir))
+    for name in os.listdir(original_dir):
+        path = original_dir + '/' + name
         img = cv2.imread(path)
         height, width, channels = img.shape
         new_h = int(height/size_factor)*size_factor
         new_w = int(width/size_factor)*size_factor
         img = img[:new_h,:new_w,:]
-        store_path = store_dir + "/" + str(i) + ".jpg"
+        store_path = store_dir + "/" + name
         cv2.imwrite(store_path, img)
 
 
-def data_augment(img_dir):
-    # temp function, need to modify
-    detector = MTCNN()
+def data_augment(img_dir,store_dir,flip=True,crop_aug=True):
+    # could add more augmentation
+    init_dir(store_dir)
     imgs = os.listdir(img_dir)
     for name in imgs:
-        img = cv2.imread('HR_img/244.jpg')
-        #img = cv2.imread(img_dir+'/'+name)
-        faces = detector.detect_faces(img)
-        print('detected len;',len(faces))
-        for face in faces:
-            print(img.shape)
-            print(face)
-            box = face['box']
-            cv2.rectangle(img,(box[0],box[1]),(box[0]+box[2],box[1]+box[3]),(255,0,0),2)
-            img = cv2.resize(img,(int(img.shape[0]/4),int(img.shape[1]/4)))
-            cv2.imshow('image',img)
-            k = cv2.waitKey(0)
+        img = cv2.imread(img_dir+'/'+name)
+        aug_imgs = []
+        aug_imgs.append(img)
+        # flip
+        if flip:
+            aug_imgs.append(np.fliplr(img))
+        # crop part of the image
+        if crop_aug:
+            height = img.shape[0]
+            width = img.shape[1]
+            crop_1 = img[:int(height*0.9),:int(width*0.9)]
+            crop_2 = img[int(height*0.1):,int(width*0.1):]
+            aug_imgs.append(crop_1)
+            aug_imgs.append(crop_2)
+            if flip:
+                # get flip img
+                flip_img = aug_imgs[1]
+                crop_3 = flip_img[:int(height * 0.9), :int(width * 0.9)]
+                crop_4 = flip_img[int(height * 0.1):, int(width * 0.1):]
+                aug_imgs.append(crop_3)
+                aug_imgs.append(crop_4)
+        # store aug_imgs
+        prefix = name.split('.')[0]
+        for i in range(len(aug_imgs)):
+            aug_img = aug_imgs[i]
+            store_path = store_dir + "/" + prefix + '_' + str(i) + ".jpg"
+            cv2.imwrite(store_path,aug_img)
+
 
 def face_crop(img_dir,store_dir):
     init_dir(store_dir)
@@ -95,7 +110,11 @@ def face_crop(img_dir,store_dir):
     imgs = os.listdir(img_dir)
     for name in imgs:
         img = cv2.imread(img_dir+'/'+name)
-        faces = detector.detect_faces(img)
+        try:
+            faces = detector.detect_faces(img)
+        except:
+            print('do next face detection')
+            continue
         print('detect img - ' + name)
         print('detected len:',len(faces))
         for i in range(len(faces)):
@@ -121,14 +140,15 @@ def face_crop(img_dir,store_dir):
 
 
 
+
+
 if __name__ == "__main__":
     #two_K_human_img_selection("original_img","input_img2",0)
-    #crop_with_scale('HR_img','HR_img_4',4)
+    #crop_with_scale('face_img','face_img_4',4)
     #create_database('HR_img_4','LR_img_0.25',0.25)
-    #data_augment('HR_img')
-    face_crop('HR_img','face_img')
-
-
+    #face_crop('HR_img','face_img')
+    data_augment('HR_img','HR_img_aug')
+    crop_with_scale('HR_img_aug','HR_img_aug_4',4)
 
 
 
