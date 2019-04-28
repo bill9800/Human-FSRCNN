@@ -148,6 +148,8 @@ def img_transform(img_dir,store_dir,size_factor,transform = 'bicubic'):
             height = int(img.shape[0] * size_factor)
             dim = (width, height)
             trans_img = cv2.resize(img,dim,interpolation=cv2.INTER_CUBIC)
+            original_dim = img.shape
+            trans_img = cv2.resize(trans_img,original_dim,interpolation=cv2.INTER_CUBIC)
             store_path = store_dir + "/" + name
             cv2.imwrite(store_path,trans_img)
 
