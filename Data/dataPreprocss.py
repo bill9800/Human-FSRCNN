@@ -2,6 +2,8 @@ import os
 import cv2
 from mtcnn.mtcnn import MTCNN
 import numpy as np
+from skimage.measure import compare_ssim as ssim
+from skimage.measure import compare_psnr as psnr
 
 # parameter
 ORIGINAL_PATH = "HR_img"
@@ -172,6 +174,13 @@ def train_test_split(img_dir,store_train_dir,store_test_dir,split_ratio=0.7):
         store_path = store_train_dir + "/" + name
         cv2.imwrite(store_path, img)
 
+def compare_img(source_path,target_path):
+    src_img = cv2.imread(source_path)
+    tar_img = cv2.imread(target_path)
+    ssim_const = ssim(src_img,tar_img,multichannel=True)
+    psnr_const = psnr(src_img,tar_img)
+    print('ssim : ',ssim_const)
+    print('psnr : ',psnr_const)
 
 if __name__ == "__main__":
     #two_K_human_img_selection("original_img","input_img2",0)
@@ -181,8 +190,8 @@ if __name__ == "__main__":
     #data_augment('HR_img','HR_img_aug')
     #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
     #img_transform('HR_img','HR_img_bicubic',0.25)
-    train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
-
+    #train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
+    compare_img('HR_img/1.jpg','HR_img/1.jpg')
 
 
 
