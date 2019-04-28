@@ -10,13 +10,16 @@ class Net(torch.nn.Module):
                                         nn.PReLU())
 
         self.layers = []
-        self.layers.append(nn.Sequential(nn.Conv2d(in_channels=d, out_channels=s, kernel_size=1, stride=1, padding=0),
-                                         nn.PReLU()))
+        self.layers.append(nn.Sequential(nn.Conv2d(in_channels=d, out_channels=s, kernel_size=1, stride=1, padding=0), nn.PReLU()))
         for _ in range(m):
-            self.layers.append(nn.Conv2d(in_channels=s, out_channels=s, kernel_size=3, stride=1, padding=1))
+
+            # self.layers.append(nn.Conv2d(in_channels=s, out_channels=s, kernel_size=3, stride=1, padding=1))      # Normal conv
+
+            self.layers.append(nn.Conv2d(in_channels=s, out_channels=s, kernel_size=3, stride=1, padding=1, groups=s))      # MobileNet conv
+            self.layers.append(nn.Conv2d(in_channels=s, out_channels=s, kernel_size=1, stride=1, padding=0))
+
         self.layers.append(nn.PReLU())
-        self.layers.append(nn.Sequential(nn.Conv2d(in_channels=s, out_channels=d, kernel_size=1, stride=1, padding=0),
-                                         nn.PReLU()))
+        self.layers.append(nn.Sequential(nn.Conv2d(in_channels=s, out_channels=d, kernel_size=1, stride=1, padding=0), nn.PReLU()))
 
         self.mid_part = torch.nn.Sequential(*self.layers)
 
