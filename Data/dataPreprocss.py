@@ -1,6 +1,6 @@
 import os
 import cv2
-from mtcnn.mtcnn import MTCNN
+#from mtcnn.mtcnn import MTCNN
 import numpy as np
 from skimage.measure import compare_ssim as ssim
 from skimage.measure import compare_psnr as psnr
@@ -151,7 +151,8 @@ def img_transform(img_dir,store_dir,size_factor,transform = 'bicubic'):
             dim = (width, height)
             trans_img = cv2.resize(img,dim,interpolation=cv2.INTER_CUBIC)
             original_dim = img.shape
-            trans_img = cv2.resize(trans_img,original_dim,interpolation=cv2.INTER_CUBIC)
+            print(original_dim)
+            trans_img = cv2.resize(trans_img,(original_dim[1],original_dim[0]),interpolation=cv2.INTER_CUBIC)
             store_path = store_dir + "/" + name
             cv2.imwrite(store_path,trans_img)
 
@@ -185,13 +186,13 @@ def compare_img(source_path,target_path):
 if __name__ == "__main__":
     #two_K_human_img_selection("original_img","input_img2",0)
     #crop_with_scale('face_img','face_img_4',4)
-    #create_database('HR_img_4','LR_img_0.25',0.25)
+    create_database('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
     #face_crop('HR_img','face_img')
     #data_augment('HR_img','HR_img_aug')
     #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
-    #img_transform('HR_img','HR_img_bicubic',0.25)
+    #img_transform('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
     #train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
-    compare_img('HR_img/1.jpg','HR_img/1.jpg')
+    #compare_img('HR_img/1.jpg','HR_img/1.jpg')
 
 
 
