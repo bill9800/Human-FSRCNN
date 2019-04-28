@@ -155,7 +155,7 @@ def img_transform(img_dir,store_dir,size_factor,transform = 'bicubic'):
 
 
 def train_test_split(img_dir,store_train_dir,store_test_dir,split_ratio=0.7):
-    init_dir('dataset')
+    init_dir('./dataset')
     init_dir(store_train_dir)
     init_dir(store_test_dir)
     imgs = os.listdir(img_dir)
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     #data_augment('HR_img','HR_img_aug')
     #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
     #img_transform('HR_img','HR_img_bicubic',0.25)
-    train_test_split('face_img_4','dataset/HR_img_train','dataset/HR_img_test')
+    train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
 
 
 
