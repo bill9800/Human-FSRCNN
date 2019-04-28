@@ -151,7 +151,10 @@ def img_transform(img_dir,store_dir,size_factor,transform = 'bicubic'):
             dim = (width, height)
             trans_img = cv2.resize(img,dim,interpolation=cv2.INTER_CUBIC)
             original_dim = img.shape
+<<<<<<< HEAD
             print(original_dim)
+=======
+>>>>>>> fc18e2fb5b130fc9ab50b4dcfd4f2ed79068ec54
             trans_img = cv2.resize(trans_img,(original_dim[1],original_dim[0]),interpolation=cv2.INTER_CUBIC)
             store_path = store_dir + "/" + name
             cv2.imwrite(store_path,trans_img)
@@ -169,10 +172,9 @@ def train_test_split(img_dir,store_train_dir,store_test_dir,split_ratio=0.7):
         img = cv2.imread(img_dir + '/' + name)
         store_path = store_train_dir + "/" + name
         cv2.imwrite(store_path,img)
-
     for name in imgs_test:
         img = cv2.imread(img_dir + '/' + name)
-        store_path = store_train_dir + "/" + name
+        store_path = store_test_dir + "/" + name
         cv2.imwrite(store_path, img)
 
 def compare_img(source_path,target_path):
@@ -192,6 +194,8 @@ if __name__ == "__main__":
     #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
     #img_transform('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
     #train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
+    #img_transform('HR_img','HR_img_bicubic',0.25)
+    train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
     #compare_img('HR_img/1.jpg','HR_img/1.jpg')
 
 
