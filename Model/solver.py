@@ -88,6 +88,8 @@ class FSRCNNTrainer(object):
 
     def run(self):
         self.build_model()
+        print('Total parameters:', sum(p.numel() for p in self.model.parameters()))
+        print('Total trainable parameters:', sum(p.numel() for p in self.model.parameters() if p.requires_grad))
         for epoch in range(1, self.nEpochs + 1):
             print("\n===> Epoch {} starts:".format(epoch))
             self.train()
