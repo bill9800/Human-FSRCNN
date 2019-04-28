@@ -137,8 +137,19 @@ def face_crop(img_dir,store_dir):
             store_path = store_dir + "/" + prefix + '_' + str(i) + ".jpg"
             cv2.imwrite(store_path, crop_img)
 
-
-
+def img_transform(img_dir,store_dir,size_factor,transform = 'bicubic'):
+    # decrease the size of img by the factor and recover back using the transform method
+    init_dir(store_dir)
+    if transform == 'bicubic':
+        imgs = os.listdir(img_dir)
+        for name in imgs:
+            img = cv2.imread(img_dir + '/' + name)
+            width = int(img.shape[1] * size_factor)
+            height = int(img.shape[0] * size_factor)
+            dim = (width, height)
+            trans_img = cv2.resize(img,dim,interpolation=cv2.INTER_CUBIC)
+            store_path = store_dir + "/" + name
+            cv2.imwrite(store_path,trans_img)
 
 
 
@@ -147,9 +158,9 @@ if __name__ == "__main__":
     #crop_with_scale('face_img','face_img_4',4)
     #create_database('HR_img_4','LR_img_0.25',0.25)
     #face_crop('HR_img','face_img')
-    data_augment('HR_img','HR_img_aug')
-    crop_with_scale('HR_img_aug','HR_img_aug_4',4)
-
+    #data_augment('HR_img','HR_img_aug')
+    #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
+    img_transform('HR_img','HR_img_bicubic',0.25)
 
 
 
