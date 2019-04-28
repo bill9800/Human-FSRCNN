@@ -154,6 +154,24 @@ def img_transform(img_dir,store_dir,size_factor,transform = 'bicubic'):
             cv2.imwrite(store_path,trans_img)
 
 
+def train_test_split(img_dir,store_train_dir,store_test_dir,split_ratio=0.7):
+    init_dir('dataset')
+    init_dir(store_train_dir)
+    init_dir(store_test_dir)
+    imgs = os.listdir(img_dir)
+    size = len(imgs)
+    imgs_train = imgs[:int(size*split_ratio)]
+    imgs_test = imgs[int(size*split_ratio):]
+    for name in imgs_train:
+        img = cv2.imread(img_dir + '/' + name)
+        store_path = store_train_dir + "/" + name
+        cv2.imwrite(store_path,img)
+
+    for name in imgs_test:
+        img = cv2.imread(img_dir + '/' + name)
+        store_path = store_train_dir + "/" + name
+        cv2.imwrite(store_path, img)
+
 
 if __name__ == "__main__":
     #two_K_human_img_selection("original_img","input_img2",0)
@@ -162,8 +180,8 @@ if __name__ == "__main__":
     #face_crop('HR_img','face_img')
     #data_augment('HR_img','HR_img_aug')
     #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
-    img_transform('HR_img','HR_img_bicubic',0.25)
-
+    #img_transform('HR_img','HR_img_bicubic',0.25)
+    train_test_split('face_img_4','dataset/HR_img_train','dataset/HR_img_test')
 
 
 
