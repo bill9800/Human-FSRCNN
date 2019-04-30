@@ -186,8 +186,8 @@ def crop_face_to_mini_face(img_dir,store_dir,size=(48,48),stride=42):
     imgs = os.listdir(img_dir)
     for name in imgs:
         img = cv2.imread(img_dir + '/' + name)
-        h_bound = int((img.shape[0]-size[0])//stride)*stride + size[0]
-        w_bound = int((img.shape[1]-size[1])//stride)*stride + size[1]
+        h_bound = int((img.shape[0]-size[0])//stride)*stride
+        w_bound = int((img.shape[1]-size[1])//stride)*stride
         for i in range(0,h_bound,stride):
             for j in range(0,w_bound,stride):
                 subimg = img[i:i+size[0],j:j+size[1],:]
