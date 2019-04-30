@@ -191,13 +191,8 @@ def crop_face_to_mini_face(img_dir,store_dir,size=(48,48),stride=42):
         for i in range(0,h_bound,stride):
             for j in range(0,w_bound,stride):
                 subimg = img[i:i+size[0],j:j+size[1]]
-                store_path = store_dir + "/" + name.split('.')[0] + str(i) + "_" + str(j) + '.jpg'
+                store_path = store_dir + "/" + name.split('.')[0] + '_' + str(i) + "_" + str(j) + '.jpg'
                 cv2.imwrite(store_path,subimg)
-
-
-
-
-
 
 
 if __name__ == "__main__":
@@ -206,7 +201,7 @@ if __name__ == "__main__":
     #create_database('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
     #face_crop('HR_img','face_img')
     #data_augment('HR_img','HR_img_aug')
-    #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
+    #crop_with_scale('HR_img_aug',4)
     #img_transform('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
     #train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
     #img_transform('HR_img','HR_img_bicubic',0.25)
