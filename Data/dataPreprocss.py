@@ -195,6 +195,10 @@ def crop_face_to_mini_face(img_dir,store_dir,size=(48,48),stride=42):
                 cv2.imwrite(store_path,subimg)
 
 
+def crop_test_speed():
+
+
+
 if __name__ == "__main__":
     #two_K_human_img_selection("original_img","input_img2",0)
     #crop_with_scale('face_img','face_img_4',4)
