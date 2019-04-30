@@ -195,8 +195,14 @@ def crop_face_to_mini_face(img_dir,store_dir,size=(48,48),stride=42):
                 cv2.imwrite(store_path,subimg)
 
 
-def crop_test_speed():
-
+def crop_test_speed(img_dir,store_dir,size=(224,224)):
+    init_dir(store_dir)
+    imgs = os.listdir(img_dir)
+    for name in imgs:
+        img = cv2.imread(img_dir + '/' + name)
+        subimg = img[20:size[0],20:size[1],:]
+        store_path = store_dir + "/" + name
+        cv2.imwrite(store_path, subimg)
 
 
 if __name__ == "__main__":
@@ -211,8 +217,8 @@ if __name__ == "__main__":
     #img_transform('HR_img','HR_img_bicubic',0.25)
     #train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
     #compare_img('HR_img/1.jpg','HR_img/1.jpg')
-    crop_face_to_mini_face('face_img', 'face_img_crop',size=(48,48),stride=42)
-
+    #crop_face_to_mini_face('face_img', 'face_img_crop',size=(48,48),stride=42)
+    crop_test_speed('HR_img','HR_speed_test_224_224')
 
 
 
