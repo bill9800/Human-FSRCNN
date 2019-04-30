@@ -179,19 +179,39 @@ def compare_img(source_path,target_path):
     print('ssim : ',ssim_const)
     print('psnr : ',psnr_const)
 
+
+def crop_face_to_mini_face(img_dir,store_dir,size=(48,48),stride=42):
+    # crop face to small pieces to enhance the resolution of face
+    init_dir(store_dir)
+    imgs = os.listdir(img_dir)
+    for name in imgs:
+        img = cv2.imread(img_dir + '/' + name)
+        h_bound = int((img.shape[0]-size[0])//stride)*stride
+        w_bound = int((img.shape[1]-size[1])//stride)*stride
+        for i in range(0,h_bound,stride):
+            for j in range(0,w_bound,stride):
+                subimg = img[i:i+size[0],j:j+size[1],:]
+                store_path = store_dir + "/" + name.split('.')[0] + '_' + str(i) + "_" + str(j) + '.jpg'
+                cv2.imwrite(store_path,subimg)
+
+
+def crop_test_speed():
+
+
+
 if __name__ == "__main__":
     #two_K_human_img_selection("original_img","input_img2",0)
     #crop_with_scale('face_img','face_img_4',4)
-    create_database('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
+    #create_database('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
     #face_crop('HR_img','face_img')
     #data_augment('HR_img','HR_img_aug')
-    #crop_with_scale('HR_img_aug','HR_img_aug_4',4)
+    #crop_with_scale('HR_img_aug',4)
     #img_transform('../dataset/face_img_4','../dataset/face_img_0.25',0.25)
     #train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
     #img_transform('HR_img','HR_img_bicubic',0.25)
     #train_test_split('face_img_4','./dataset/HR_img_train','./dataset/HR_img_test')
     #compare_img('HR_img/1.jpg','HR_img/1.jpg')
-
+    crop_face_to_mini_face('face_img', 'face_img_crop',size=(48,48),stride=42)
 
 
 
