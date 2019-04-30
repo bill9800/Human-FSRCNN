@@ -38,7 +38,7 @@ class FSRCNNTrainer(object):
             self.criterion.cuda()
 
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
-        self.scheduler = torch.optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[50, 75, 100], gamma=0.5)  # lr decay
+        self.scheduler = torch.optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[5, 7, 9], gamma=0.5)  # lr decay
 
     def save_model(self):
         model_out_path = "model_path.pth"
