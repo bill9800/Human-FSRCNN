@@ -25,4 +25,7 @@ generate 4 times large original image, create image on average time:1s, PSNR=33d
    
 ## Second version result:
 
+model_size: approximate 60k for each .pkl
+model_num: 5
+
 
