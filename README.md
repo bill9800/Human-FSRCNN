@@ -6,7 +6,7 @@ In this project, we aimed to:
   2. Make the transform fast enough to do it in real time(20-30fps)
 
 
-How to use the codes:
+## How to use the codes:
 >Python version:
 1. Create a folder 'dataset' in the main folder: Human-FSRCNN/dataset.
 2. Create two sub-folder: 'Human-FSRCNN/dataset/HR_img_train', 'Human-FSRCNN/dataset/HR_img_test', and put test and train imgs in them(The original pics only, and the height and width must be the factor of 4).
@@ -20,7 +20,8 @@ How to use the codes:
 generate 4 times large original image, create image on average time:1s, PSNR=33dB, image not clear enough, especially on edge
 ![comparition](img/0_compare.jpg)
 </p>
- <b>
+
+</p>
 ![comparition](img/3_compare.jpg)
    
 ## Second version result:
