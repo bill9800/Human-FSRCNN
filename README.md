@@ -18,10 +18,9 @@ In this project, we aimed to:
 
 ## First version result:
 generate 4 times large original image, create image on average time:1s, PSNR=33dB, image not clear enough, especially on edge
-![comparition](img/0_compare.jpg)
-</p>
 
-</p>
+![comparition](img/0_compare.jpg)
+
 ![comparition](img/3_compare.jpg)
    
 ## Second version result:
